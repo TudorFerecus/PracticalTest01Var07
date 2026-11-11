@@ -62,7 +62,7 @@ class PracticalTest01Var07MainActivity : AppCompatActivity() {
 
         }
 
-        broadcastReceiver = PracticalTest01BroadcastReceiver()
+        broadcastReceiver = PracticalTest01BroadcastReceiver(i1, i2, i3, i4)
         intentFilter = IntentFilter().apply {
             addAction(Constants.ACTION_1)
         }
@@ -131,26 +131,35 @@ class PracticalTest01Var07MainActivity : AppCompatActivity() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putString("toastres", RETURNED_TOAST.toString())
+
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        val savedNumber1 = savedInstanceState.getString("RETURNED_TOAST")
+        val savedNumber1 = savedInstanceState.getString("toastres")
         RETURNED_TOAST = savedNumber1?.toInt() ?: -1
-        Log.d("pctC", "ultima val primita $RETURNED_TOAST")
+    }
 
+    override fun onDestroy() {
+        if (serviceStatus == Constants.SERVICE_STARTED) {
+            val serviceIntent = Intent(this, PracticalTest01Var07Service::class.java)
+            stopService(serviceIntent)
+            serviceStatus = Constants.SERVICE_STOPPED
+            Log.d(Constants.TAG, "PracticalTest01Service oprit in onDestroy()")
+        }
+        super.onDestroy()
     }
 
     override fun onResume() {
         super.onResume()
         Log.d("pctC", "ultima val primita $RETURNED_TOAST")
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            registerReceiver(broadcastReceiver, intentFilter, Context.RECEIVER_EXPORTED)
-        } else {
-            @Suppress("DEPRECATION")
-            registerReceiver(broadcastReceiver, intentFilter)
-        }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+//            registerReceiver(broadcastReceiver, intentFilter, Context.RECEIVER_EXPORTED)
+//        } else {
+//            @Suppress("DEPRECATION")
+//            registerReceiver(broadcastReceiver, intentFilter)
+//        }
 
     }
 }

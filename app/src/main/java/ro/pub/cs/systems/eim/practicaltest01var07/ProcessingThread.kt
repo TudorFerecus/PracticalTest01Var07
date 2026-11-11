@@ -25,9 +25,9 @@ class ProcessingThread(    private val context: Context,
         var v4 = (1..10).random()
         val intent = Intent(Constants.ACTION_1).apply {
             putExtra(Constants.KEY_NUMBER_1, v1.toString())
-            putExtra(Constants.KEY_NUMBER_2, v1.toString())
-            putExtra(Constants.KEY_NUMBER_3, v1.toString())
-            putExtra(Constants.KEY_NUMBER_4, v1.toString())
+            putExtra(Constants.KEY_NUMBER_2, v2.toString())
+            putExtra(Constants.KEY_NUMBER_3, v3.toString())
+            putExtra(Constants.KEY_NUMBER_4, v4.toString())
             setPackage(context.packageName)
         }
 
